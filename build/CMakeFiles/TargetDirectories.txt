@@ -1,3 +1,4 @@
-/home/bulat/mai/styding/cource_2/OS/Lab1/build/CMakeFiles/lab1_main.dir
-/home/bulat/mai/styding/cource_2/OS/Lab1/build/CMakeFiles/edit_cache.dir
-/home/bulat/mai/styding/cource_2/OS/Lab1/build/CMakeFiles/rebuild_cache.dir
+/home/bulat/mai/studying/cource_2/OS/Lab1/build/CMakeFiles/source.dir
+/home/bulat/mai/studying/cource_2/OS/Lab1/build/CMakeFiles/exec.dir
+/home/bulat/mai/studying/cource_2/OS/Lab1/build/CMakeFiles/edit_cache.dir
+/home/bulat/mai/studying/cource_2/OS/Lab1/build/CMakeFiles/rebuild_cache.dir

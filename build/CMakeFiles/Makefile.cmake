@@ -7,7 +7,7 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "/home/bulat/mai/styding/cource_2/OS/Lab1/CMakeLists.txt"
+  "/home/bulat/mai/studying/cource_2/OS/Lab1/CMakeLists.txt"
   "CMakeFiles/3.26.1/CMakeCCompiler.cmake"
   "CMakeFiles/3.26.1/CMakeSystem.cmake"
   "/usr/local/lib/python3.10/dist-packages/cmake/data/share/cmake-3.26/Modules/CMakeCCompiler.cmake.in"
@@ -100,5 +100,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/lab1_main.dir/DependInfo.cmake"
+  "CMakeFiles/source.dir/DependInfo.cmake"
+  "CMakeFiles/exec.dir/DependInfo.cmake"
   )

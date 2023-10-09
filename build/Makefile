@@ -57,10 +57,10 @@ RM = /usr/local/lib/python3.10/dist-packages/cmake/data/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/bulat/mai/styding/cource_2/OS/Lab1
+CMAKE_SOURCE_DIR = /home/bulat/mai/studying/cource_2/OS/Lab1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/bulat/mai/styding/cource_2/OS/Lab1/build
+CMAKE_BINARY_DIR = /home/bulat/mai/studying/cource_2/OS/Lab1/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/bulat/mai/styding/cource_2/OS/Lab1/build/CMakeFiles /home/bulat/mai/styding/cource_2/OS/Lab1/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/bulat/mai/studying/cource_2/OS/Lab1/build/CMakeFiles /home/bulat/mai/studying/cource_2/OS/Lab1/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/bulat/mai/styding/cource_2/OS/Lab1/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/bulat/mai/studying/cource_2/OS/Lab1/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -117,41 +117,102 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named lab1_main
+# Target rules for targets named source
 
 # Build rule for target.
-lab1_main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lab1_main
-.PHONY : lab1_main
+source: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 source
+.PHONY : source
 
 # fast build rule for target.
-lab1_main/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab1_main.dir/build.make CMakeFiles/lab1_main.dir/build
-.PHONY : lab1_main/fast
+source/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/source.dir/build.make CMakeFiles/source.dir/build
+.PHONY : source/fast
 
-src/main.o: src/main.c.o
-.PHONY : src/main.o
+#=============================================================================
+# Target rules for targets named exec
+
+# Build rule for target.
+exec: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 exec
+.PHONY : exec
+
+# fast build rule for target.
+exec/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/build
+.PHONY : exec/fast
+
+src/child.o: src/child.c.o
+.PHONY : src/child.o
 
 # target to build an object file
-src/main.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab1_main.dir/build.make CMakeFiles/lab1_main.dir/src/main.c.o
-.PHONY : src/main.c.o
+src/child.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/source.dir/build.make CMakeFiles/source.dir/src/child.c.o
+.PHONY : src/child.c.o
 
-src/main.i: src/main.c.i
-.PHONY : src/main.i
+src/child.i: src/child.c.i
+.PHONY : src/child.i
 
 # target to preprocess a source file
-src/main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab1_main.dir/build.make CMakeFiles/lab1_main.dir/src/main.c.i
-.PHONY : src/main.c.i
+src/child.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/source.dir/build.make CMakeFiles/source.dir/src/child.c.i
+.PHONY : src/child.c.i
 
-src/main.s: src/main.c.s
-.PHONY : src/main.s
+src/child.s: src/child.c.s
+.PHONY : src/child.s
 
 # target to generate assembly for a file
-src/main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab1_main.dir/build.make CMakeFiles/lab1_main.dir/src/main.c.s
-.PHONY : src/main.c.s
+src/child.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/source.dir/build.make CMakeFiles/source.dir/src/child.c.s
+.PHONY : src/child.c.s
+
+src/exec.o: src/exec.c.o
+.PHONY : src/exec.o
+
+# target to build an object file
+src/exec.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/src/exec.c.o
+.PHONY : src/exec.c.o
+
+src/exec.i: src/exec.c.i
+.PHONY : src/exec.i
+
+# target to preprocess a source file
+src/exec.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/src/exec.c.i
+.PHONY : src/exec.c.i
+
+src/exec.s: src/exec.c.s
+.PHONY : src/exec.s
+
+# target to generate assembly for a file
+src/exec.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/src/exec.c.s
+.PHONY : src/exec.c.s
+
+src/parent.o: src/parent.c.o
+.PHONY : src/parent.o
+
+# target to build an object file
+src/parent.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/source.dir/build.make CMakeFiles/source.dir/src/parent.c.o
+.PHONY : src/parent.c.o
+
+src/parent.i: src/parent.c.i
+.PHONY : src/parent.i
+
+# target to preprocess a source file
+src/parent.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/source.dir/build.make CMakeFiles/source.dir/src/parent.c.i
+.PHONY : src/parent.c.i
+
+src/parent.s: src/parent.c.s
+.PHONY : src/parent.s
+
+# target to generate assembly for a file
+src/parent.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/source.dir/build.make CMakeFiles/source.dir/src/parent.c.s
+.PHONY : src/parent.c.s
 
 # Help Target
 help:
@@ -161,10 +222,17 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... lab1_main"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... exec"
+	@echo "... source"
+	@echo "... src/child.o"
+	@echo "... src/child.i"
+	@echo "... src/child.s"
+	@echo "... src/exec.o"
+	@echo "... src/exec.i"
+	@echo "... src/exec.s"
+	@echo "... src/parent.o"
+	@echo "... src/parent.i"
+	@echo "... src/parent.s"
 .PHONY : help
 
 

@@ -23,5 +23,16 @@ if(NOT CMAKE_C_EXTENSIONS)
     set(CMAKE_C_EXTENSIONS OFF)
 endif()
 
+add_library(headers INTERFACE)
+target_include_directories(headers INTERFACE include)
 
-add_executable(lab1_main src/main.c)
+add_library(source STATIC 
+    src/parent.c
+    src/child.c
+)
+
+target_link_libraries(source PUBLIC headers)
+
+add_executable(exec src/exec.c)
+
+target_link_libraries(exec PRIVATE source)
