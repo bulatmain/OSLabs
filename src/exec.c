@@ -8,8 +8,16 @@
 #include "lib/child.h"
 #include "lib/parent.h"
 
+#ifdef __linux__
 #define fileNameSize 4096
 #define fileNameScanFormat "%4096s"
+#elif _WIN64
+#define fileNameSize 256
+#define fileNameScanFormat "%256s"
+#elif _WIN32
+#define fileNameSize 11
+#define fileNameScanFormat "%11s"
+#endif
 
 int main() {
 
@@ -50,9 +58,9 @@ int main() {
         ERROR("Error: can not create child process!\n", fp,
         BAD_CREATE_CHILD_ERROR);
     } else if (pid > 0) {   
-        child_process_exec(fd[0], fd[1], &fp);
-    } else {
         parent_process_exec(fd[0], fd[1], &fp);
+    } else {
+        child_process_exec(fd[0], fd[1], &fp);
     }
 
     return 0;
