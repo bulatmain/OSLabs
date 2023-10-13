@@ -9,8 +9,8 @@
 #include "lib/parent.h"
 
 #ifdef __linux__
-#define fileNameSize 4096
-#define fileNameScanFormat "%4096s"
+#define fileNameSize 256
+#define fileNameScanFormat "%256s"
 #elif _WIN64
 #define fileNameSize 256
 #define fileNameScanFormat "%256s"
