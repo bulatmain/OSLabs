@@ -1,36 +1,70 @@
-# Main
 cmake_minimum_required(VERSION 3.14)
 
-project(Lab2 LANGUAGES C CXX)
+project(DPP LANGUAGES C CXX)
 
-# Variables
-option(LAB2_TESTING "Включить модульное тестирование" ON)
+option(DPP_TESTING "Включить модульное тестирование" ON)
 
-# Header
-add_library(Lab2_headers INTERFACE)
-target_include_directories(Lab2_headers INTERFACE include)
-add_library(Lab2::headers ALIAS Lab2_headers)
+option(QUEUE_TESTING "Включить модульное тестирование модуля p_queue" OFF)
 
-# Source
-add_library(Lab2_source STATIC
-    src/thread_queue.c
-    src/planner.c
+option(ENABLE_WARNING "Включить предупреждения" OFF)
+
+if (ENABLE_WARNING)
+    if((CMAKE_CXX_COMPILER_ID MATCHES "GNU") OR (CMAKE_CXX_COMPILER_ID MATCHES "Clang"))
+        add_compile_options(
+            -Wall
+            -Wextra
+            -Wpedantic
+
+            -Wcast-align
+            -Wcast-qual
+            -Wconversion
+            -Wctor-dtor-privacy
+            -Wenum-compare
+            -Wfloat-equal
+            -Wnon-virtual-dtor
+            -Wold-style-cast
+            -Woverloaded-virtual
+            -Wredundant-decls
+            -Wsign-conversion
+            -Wsign-promo
+        )
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        add_compile_options(/W4 /WX)
+    endif()
+
+    if(NOT CMAKE_CXX_EXTENSIONS)
+        set(CMAKE_CXX_EXTENSIONS OFF)
+    endif()
+endif()   
+
+add_compile_options(
+    -g
 )
-target_link_libraries(Lab2_source PUBLIC Lab2_headers)
-target_compile_features(Lab2_source PRIVATE c_std_17)
 
-add_library(Lab2::source ALIAS Lab2_source)
+add_subdirectory(include/p_queue)
 
+add_library(DPP_headers INTERFACE)
+target_include_directories(DPP_headers INTERFACE include/lib)
+add_library(DPP::headers ALIAS DPP_headers)
 
-# Executive
+add_library(DPP_source STATIC
+    src/planner.c
+    src/planner_aux.c
+    src/filter.c
+    src/tasks.c
+)
+target_link_libraries(DPP_source PUBLIC DPP_headers)
+target_link_libraries(DPP_source PUBLIC Queue::source)
+target_compile_features(DPP_source PRIVATE c_std_17)
+
+add_library(DPP::source ALIAS DPP_source)
+
 add_executable(exec exec/main.c)
+target_link_libraries(exec PRIVATE DPP_source)
 
-target_link_libraries(exec Lab2::source)
-
-# Auxiliary
-if(NOT LAB2_TESTING)
-    message(STATUS "Тестирование выключено")
-else()
-    add_subdirectory(test)
-endif()
+# if(NOT DPP_TESTING)
+#     message(STATUS "Тестирование выключено")
+# else()
+#     add_subdirectory(test)
+# endif()
 

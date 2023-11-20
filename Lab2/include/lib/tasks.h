@@ -2,7 +2,13 @@
 
 #define TASKS_H
 
-#include "structures.h"
+#include <pthread.h>
+#include "lib/p_queue.h"
+#include "macroses.h"
+
+#ifndef STRUCTURE_ELEMENT_SIZE
+#define STRUCTURE_ELEMENT_SIZE 3
+#endif
 
 struct tech_data
 {
@@ -14,29 +20,40 @@ typedef struct tech_data tech_data;
 
 struct tech_params
 {
-    size_t n;
-    size_t m;
-    size_t k;
+    const size_t k;
+    const size_t threadsCount;
 };
 typedef struct tech_params tech_params;
 
 struct elementary_task {
-    tech_data* task;
+    tech_data* origin;
+    tech_data* erosion;
+    tech_data* extention;
     size_t i;
     size_t j;
 };
 typedef struct elementary_task elementary_task;
 
-enum task_type {
-    EROSION,
-    EXTENTION
+struct thread_params {
+    pthread_t* pid;
+    size_t id;
+    p_queue* free_queue;
+    pthread_mutex_t* mutex;
 };
-typedef enum task_type task_type;
+typedef struct thread_params thread_params;
 
-void calculate_erosion(elementary_task* task);
+struct thread_task_args {
+    elementary_task task;
+    thread_params* tp;
+};
+typedef struct thread_task_args thread_task_args;
 
-void calculate_extention(elementary_task* task);
+void execute_task(thread_task_args* args);
 
-void execute_task(elementary_task* task, task_type type);
+void* calculate_elementary_task(void* thread_task_args);
+
+void calculate_min_and_max(elementary_task task, float* min, float* max);
+
+void write_pixel(elementary_task task, float min, float max);
 
 #endif

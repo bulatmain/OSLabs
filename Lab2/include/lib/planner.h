@@ -4,13 +4,10 @@
 
 #define PLANNER_H
 
-#include "structures.h"
 #include "tasks.h"
+#include "planner_aux.h"
+#include "filter.h"
 
-#ifndef STRUCTURE_ELEMENT_SIZE
-#define STRUCTURE_ELEMENT_SIZE 3
-#endif
-
-void planner(tech_data* data, tech_params* params, int fd[]);
+void planner(tech_data* data, tech_params params);
 
 #endif

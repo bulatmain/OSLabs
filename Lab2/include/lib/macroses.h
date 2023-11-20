@@ -10,8 +10,17 @@
     exit(error_code);                \
 }
 
+#define ASSERT_ALLOCATED(p, message) {      \
+    if ((p) == NULL) {             \
+        ERROR(                     \
+            message, \
+            RUNTIME_ERROR          \
+        );                         \
+    }                              \
+}
+
 #define RUNTIME_ERROR -1
 #define LOGIC_ERROR -2
-#define INVALID_ARGUMENTS_ERRO -3
+#define INVALID_ARGUMENTS_ERROR -3
 
 #endif

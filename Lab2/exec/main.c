@@ -1,86 +1,60 @@
 #include <stdio.h>
-#include <sys/types.h>
-#include <unistd.h>
+#include <sys/time.h>
+#include "planner.h"
+#include "error_messages.h"
 
+void write_results_to_file(const char* filename, size_t result) {
+    FILE* fp = fopen(filename, "a");
+    if (fp == NULL) {
+        ERROR(
+            "Error: main.c, write_result_to_file: unable to open file\n",
+            RUNTIME_ERROR
+        );
+    }
 
-#include "lib/planner.h"
-#include "lib/macroses.h"
+    if (fprintf(fp, "%ld\n", result) < 0) {
+        ERROR(
+                "ERROR: main.c, write_result_to_file: can not write into file.\n",
+                RUNTIME_ERROR
+        );
+    }
 
-#define INVALID_ARGIMENTS_ERROR_MESSSAGE \
-"ERROR: Wrong arguments.\nThere should be 2 arguments: first - filename of image and second - K\n"
+    if (fclose(fp) < 0) {
+        ERROR(
+            "ERROR: main.c, write_results_to_file: can not close file\n",
+            RUNTIME_ERROR
+        )
+    }
 
-#define DATA_N_PARAMS_INITIALIZATION_ERROR \
-"ERROR: Runtime error while initializing tech_data and tech_params\n"
+}
 
-#define CREATING_PIPE_ERROR \
-"ERROR: Can not create interprocess pipe\n"
-
-#define CREATING_PROCESS_ERROR \
-"ERROR: Can not create process\n"
-
-tech_data* read_tech_data(const char* filename);
-tech_params* read_tech_params(const char* str);
-
-void handle_message(wrapper* message);
-
-/*
-    Arguments: <image_filename> <K>
-*/
 int main(int argc, char** argv) {
 
-    if (argc != 3) {
+    if (argc != 7) {
         ERROR(
             INVALID_ARGIMENTS_ERROR_MESSSAGE,
-            INVALID_ARGUMENTS_ERRO
+            INVALID_ARGUMENTS_ERROR
         );
     } 
 
-    tech_data* data = read_tech_data(argv[1]);
-    tech_params* params = read_tech_params(argv[2]);
+    tech_data* data = (tech_data*)malloc(sizeof(tech_data));
+    ASSERT_ALLOCATED(data, "Error: main.c, main, 15: bad alloc!\n");
+    *data = read_tech_data(argv[1], argv[2], argv[3]);
+    tech_params params = read_tech_params(argv[4], argv[5]);
 
-    if (data == NULL || params == NULL) {
-        ERROR(
-            DATA_N_PARAMS_INITIALIZATION_ERROR,
-            RUNTIME_ERROR
-        );
-    }
+    struct timeval stop, start;
+    gettimeofday(&start, NULL);
 
+    planner(data, params);
 
-    // Make pipe
-    int fd[2];
-    if (pipe(fd) == -1) {
-        ERROR(
-            CREATING_PIPE_ERROR,
-            RUNTIME_ERROR
-        );
-    }
-    
-    // Launch planner process and hand over data and paramethers to planner process
+    gettimeofday(&stop, NULL);
+    size_t working_time = (stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec;
+    //printf("took %lu us\n", working_time);
 
-    pid_t pid = fork();
+    write_results_to_file(argv[6], working_time);
 
-    if (pid == -1) {
-        ERROR(
-            CREATING_PROCESS_ERROR,
-            RUNTIME_ERROR
-        )
-    } else if (pid > 0) {
-        int pipe_in_no = fd[0];
-        int pipe_out_no = fd[1];
-
-        close(pipe_out_no);
-
-        wrapper message;
-        do {
-            handle_message(&message);
-        } while (message.code != END_CODE);
-    } else {
-        planner(data, params, fd);
-    }
-
-    // Write results in file
-
-
+    free_tech_data(data);
+    free(data);
 
     return 0;
 }
