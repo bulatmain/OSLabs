@@ -1,28 +1,31 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <limits.h>
 
 #include "lib/wrapper.h"
 #include "lib/macros.h"
 #include "lib/child.h"
 #include "lib/parent.h"
 
-#ifdef __linux__
-#define fileNameSize 256
-#define fileNameScanFormat "%256s"
-#elif _WIN64
-#define fileNameSize 256
-#define fileNameScanFormat "%256s"
-#elif _WIN32
-#define fileNameSize 11
-#define fileNameScanFormat "%11s"
-#endif
+#define xstr(a) str(a)
+#define str(a) #a
+
+#define fileNameScanFormat xstr(FILENAME_MAX)
+
+// #ifdef __linux__
+// #define fileNameSize 256
+// #define fileNameScanFormat "%256s"
+// #elif _WIN64
+// #define fileNameSize 256
+// #define fileNameScanFormat "%256s"
+// #elif _WIN32
+// #define fileNameSize 11
+// #define fileNameScanFormat "%11s"
+// #endif
 
 void init_file(FILE** fp);
 void init_shared_object(int* fd, shared_obj** shm, FILE* fp);
 void free_shared_object(shared_obj* shm, int pid);
 
 int main() {
-
     // Read fileName from console stdin
     FILE* fp = NULL;
     
@@ -56,10 +59,10 @@ int main() {
 
 
 void init_file(FILE** fp) {
-    char fileName[fileNameSize];
+    char fileName[FILENAME_MAX];
 
     printf("Please, enter file name: ");
-    if (scanf(fileNameScanFormat, fileName) == EOF) {
+    if (scanf("%"fileNameScanFormat"s", fileName) == EOF) {
         ERROR("\nError: No file name entered\n", NULL,
         INVALID_ARG_ERROR);
     }
