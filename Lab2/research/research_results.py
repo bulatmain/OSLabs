@@ -1,11 +1,8 @@
 import matplotlib.pyplot as plt
 
 def read_results(filename):
-    results = []
     f = open(filename)
-    for line in f:
-        results.append(int(line))
-    return results
+    return [int(line) for line in f]
 
 def calculate_acceleration(working_time):
     t1 = working_time[0]
