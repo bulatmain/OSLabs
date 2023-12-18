@@ -23,7 +23,7 @@
 
 void init_file(FILE** fp);
 void init_shared_object(int* fd, shared_obj** shm, FILE* fp);
-void free_shared_object(shared_obj* shm, int pid);
+void free_shared_object(shared_obj* shm);
 
 int main() {
     // Read fileName from console stdin
@@ -45,14 +45,13 @@ int main() {
         parent_process_exec(shm);
         sem_destroy(&shm->read);
         sem_destroy(&shm->write);
+        free_shared_object(shm);
     } else {
         child_process_exec(fd, &fp);
     }
 
     // Free resources
     fclose(fp);
-
-    free_shared_object(shm, pid);
 
     return 0;
 }
@@ -104,15 +103,13 @@ void init_shared_object(int* fd, shared_obj** shm, FILE* fp) {
     }
 }
 
-void free_shared_object(shared_obj* shm, int pid) {
+void free_shared_object(shared_obj* shm) {
     if (munmap(shm, sizeof(shared_obj)) == -1) {
         ERROR("Error: can not unmap shared object\n", NULL,
         BAD_UNMAP);
     }
-    if (pid > 0) {
-        if (shm_unlink(shared_memory_file) == -1) {
-            ERROR("Error: can not unlink shared memory filename from memory object\n", NULL,
-            BAD_SHM_UNLINK);
-        } 
+    if (shm_unlink(shared_memory_file) == -1) {
+        ERROR("Error: can not unlink shared memory filename from memory object\n", NULL,
+        BAD_SHM_UNLINK);
     }
 }
