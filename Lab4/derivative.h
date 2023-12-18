@@ -1,0 +1,1 @@
+float Derivative(float A, float deltaX);
