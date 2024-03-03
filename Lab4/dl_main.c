@@ -12,7 +12,6 @@ static void *library = NULL;
 static float (*Derivative)(float, float);
 static float (*E)(int);
 
-
 void load_lib() {
     if (impl == 0) {
         library = dlopen("./libimpl1.so", RTLD_LAZY);
@@ -21,8 +20,8 @@ void load_lib() {
     }
     crash_on(library == NULL);
 
-    Derivative = (float(*)(float, float))dlsym(library, "Derivative");
-    E = (float(*)(int))dlsym(library, "E");
+    *(void**)(&Derivative) = dlsym(library, "Derivative");
+    *(void**)(&E) = dlsym(library, "E");
 }
 
 
